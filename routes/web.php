@@ -28,4 +28,10 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/tests/widget', function () {
+    $widgets = \App\Models\Widget::active()->sort()->get()->toArray();
+
+    return Inertia::render('Tests/Widget', compact('widgets'));
+});
+
 require __DIR__.'/auth.php';
