@@ -28,10 +28,20 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/tests/widget', function () {
+Route::get('/widgets', function () {
     $widgets = \App\Models\Widget::active()->sort()->get()->toArray();
 
     return Inertia::render('Tests/Widget', compact('widgets'));
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/{slug}', function (Request $request, string $slug) {
+    $page = \App\Models\Page::with(['widgets' => function ($query) {
+        $query->orderBy('page_has_widgets.sort_number');
+    }])->active()->ofSlug($slug)->first();
+
+    $page->widgets->each(fn ($widget) => $widget->loadData());
+
+    return Inertia::render('Tests/Page', compact('page'));
+});

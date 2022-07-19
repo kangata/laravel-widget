@@ -13,14 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('widgets', function (Blueprint $table) {
+        Schema::create('pages', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('type');
-            $table->text('file');
-            $table->longText('data')->nullable();
+            $table->text('slug');
+            $table->text('title');
+            $table->longText('content');
             $table->boolean('active')->default(0);
             $table->timestamps();
+        });
+
+        Schema::create('page_has_widgets', function (Blueprint $table) {
+            $table->foreignId('page_id');
+            $table->foreignId('widget_id');
+            $table->smallInteger('sort_number')->default(1000);
         });
     }
 
@@ -31,6 +36,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('widgets');
+        Schema::dropIfExists('page_has_widgets');
+        Schema::dropIfExists('pages');
     }
 };

@@ -4,7 +4,7 @@ namespace App\Widgets\License;
 
 class LicenseDataFactory
 {
-    public static function make(array $payload)
+    public static function make(array $payload): LicenseData
     {
         return new LicenseData(
             text: data_get($payload, 'text'),

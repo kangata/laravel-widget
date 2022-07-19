@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Widgets\Jumbotron;
+namespace App\Widgets\Banner;
 
-class JumbotronDataFactory
+class BannerDataFactory
 {
-    public static function make(array $payload): JumbotronData
+    public static function make(array $payload): BannerData
     {
-        return new JumbotronData(
+        return new BannerData(
             title: data_get($payload, 'title'),
             description: data_get($payload, 'description'),
             image: data_get($payload, 'image'),
+            link: data_get($payload, 'link'),
         );
     }
 }
